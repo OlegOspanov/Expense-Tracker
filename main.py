@@ -66,7 +66,7 @@ class MainApp(MDApp):
         btn_container = self.root.ids.main_scroll
         btn_container.clear_widgets()
 
-    """очищение слайдерачастых продуктов"""
+    """очищение слайдерачастых продуктов!!!"""
     def clean_list_often_products(self):
         btn_container = self.root.ids.often_product_scroll
         btn_container.clear_widgets()
