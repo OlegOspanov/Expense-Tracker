@@ -58,7 +58,8 @@ class MainApp(MDApp):
             item1 = i[1]
             btn_container = self.root.ids.main_scroll
             btn = MDTextButton(text=item1,padding=(10))
-            btn.bind(on_press = lambda x :self.insert_category(self.root.ids.product.text,item1,self.root.ids.price.text))
+            btn.bind(on_press = lambda x ,item=item1 :self.insert_category(self.root.ids.product.text,item,self.root.ids.price.text))
+            btn.bind(on_release = lambda x:self.clear_text_forms(self.root.ids.product,self.root.ids.price))
             btn_container.add_widget(btn)
 
     """очищение слайдера категорий"""
@@ -80,7 +81,7 @@ class MainApp(MDApp):
         for i in a:
             btn_text = i[0]
             btn = MDTextButton(text=f'{btn_text}', padding=(10))
-            btn.bind(on_press=lambda x:self.popup_product_item(btn_text))
+            btn.bind(on_press=lambda x,text = btn_text: self.popup_product_item(text))
             btn_container.add_widget(btn)
 
 
@@ -96,8 +97,10 @@ class MainApp(MDApp):
         view.add_widget(content)
         view.open()
         category =  fletch_products_category(item)
-        text = input_popup.text
-        popup_btn.bind(on_press=lambda x: insert_db(item,text,category))
+
+
+        popup_btn.bind(on_press=lambda x: insert_db(item,input_popup.text,category))
+        popup_btn.bind(on_release=view.dismiss)
 
 
 
