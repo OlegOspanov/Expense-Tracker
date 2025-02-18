@@ -18,6 +18,13 @@ Products = Table(
     Column('Category',String)
 )
 
+Categorys = Table(
+    'Categorys', metadata,
+    Column('id', Integer, primary_key=True),
+    Column('Category',String)
+)
+
+
 metadata.create_all(engine)
 
 """создание базы продуктов"""
@@ -35,23 +42,18 @@ def fletch_products_name():
         rows = result.fetchall()
         sorted_list = [i[1] for i in rows]
         a = Counter(sorted_list).most_common(15)
-        print(f'выбор из базы {a}')
         return a
 
 
 
 def fletch_products_category(item):
     select_query = select(Products)
-    print(item)
     with engine.connect() as connection:
         result = connection.execute(select_query)
         rows = result.fetchall()
-        print(rows)
         for i in rows:
             if i[1] == item:
-                print(i[1])
                 category = i[3]
-                print(category)
                 return category
 
 
