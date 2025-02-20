@@ -1,7 +1,7 @@
 from connection_to_db import insert_category_db,fetch_all,connect_db
 from kivymd.app import MDApp
-from kivymd.uix.label import MDLabel
 from kivymd.uix.boxlayout import MDBoxLayout
+from kivy.graphics import *
 from Model import insert_db,fletch_products_name,fletch_products_category
 from kivy.uix.popup import Popup,ModalView
 from kivymd.uix.button import  MDTextButton
@@ -9,6 +9,7 @@ from kivymd.uix.textfield import MDTextField
 from kivy.core.window import Window
 from functools import partial
 Window.size = (250, 500)
+
 
 class MainWindow(MDBoxLayout):
     pass
@@ -54,13 +55,18 @@ class MainApp(MDApp):
 
     """создание слайдера категорий"""
     def create_list_category(self):
+        btn_container = self.root.ids.main_scroll
+
         for i in fetch_all():
             item1 = i[1]
-            btn_container = self.root.ids.main_scroll
             btn = MDTextButton(text=item1,padding=(10))
             btn.bind(on_press = lambda x ,item=item1 :self.insert_category(self.root.ids.product.text,item,self.root.ids.price.text))
             btn.bind(on_release = lambda x:self.clear_text_forms(self.root.ids.product,self.root.ids.price))
             btn_container.add_widget(btn)
+
+        btn1 = MDTextButton(text='Добавить новую категорию',padding=(10))
+        btn1.bind(on_press = lambda x:self.popup_new_category_btn())
+        btn_container.add_widget(btn1)
 
     """очищение слайдера категорий"""
     def clean_list_category(self):
@@ -107,6 +113,7 @@ class MainApp(MDApp):
 
     def build(self):
         self.theme_cls.theme_style = "Dark"
+        self.theme_cls.primary_palette = "DeepPurple"
         return MainWindow()
 
 
