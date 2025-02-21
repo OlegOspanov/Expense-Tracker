@@ -31,10 +31,10 @@ def insert_category_db(item):
 
 """выбор из базы категорий"""
 
-def fetch_all():
+"""def fetch_all():
     conn = sqlite3.connect('new1.db')
     c = conn.cursor()
     c.execute("select * from category;")
     all_result = c.fetchall()
-    return all_result
+    return all_result"""
 

@@ -38,6 +38,7 @@
 
 
 
+
                 MDGridLayout:
                     id: container
                     rows:3
@@ -178,8 +179,6 @@
             text: 'Частые'
             icon: "heart-outline"
 
-
-
             MDScrollView:
                 do_scroll_x: False
 
@@ -191,6 +190,22 @@
                     adaptive_height: True
 
 
+        MDBottomNavigationItem:
+            id:statistic
+            on_enter:app.create_list_total()
+            on_leave:app.clean_list_total()
+            name: 'Screen 4'
+            text: 'Статистика'
+            icon: "currency-usd"
 
+            MDScrollView:
+                do_scroll_x: False
+
+
+                MDBoxLayout:
+                    id:statistic_scroll
+                    orientation: "vertical"
+                    adaptive_height: True
+                    padding:10
 
 

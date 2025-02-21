@@ -1,12 +1,12 @@
-from connection_to_db import insert_category_db,fetch_all,connect_db
+from connection_to_db import insert_category_db,connect_db
 from kivymd.app import MDApp
 from kivymd.uix.boxlayout import MDBoxLayout
-from kivy.graphics import *
-from Model import insert_db,fletch_products_name,fletch_products_category
+from Model import insert_db,fletch_products_name,fletch_products_category,insert_db_category,fetch_all,fletch_products_price,Total
 from kivy.uix.popup import Popup,ModalView
 from kivymd.uix.button import  MDTextButton
 from kivymd.uix.textfield import MDTextField
 from kivy.core.window import Window
+from kivymd.uix.label import MDLabel
 from functools import partial
 Window.size = (250, 500)
 
@@ -41,7 +41,7 @@ class MainApp(MDApp):
         view = ModalView(size_hint=(None, None), size=(200,100))
         view.add_widget(content)
         view.open()
-        popup_btn.bind(on_press = lambda x:insert_category_db(input_popup.text))
+        popup_btn.bind(on_press = lambda x:insert_db_category(input_popup.text))
         popup_btn.bind(on_press=lambda x: self.save_new_category(input_popup.text))
         popup_btn.bind(on_press=lambda x: connect_db())
         popup_btn.bind(on_release=view.dismiss)
@@ -56,7 +56,9 @@ class MainApp(MDApp):
     """создание слайдера категорий"""
     def create_list_category(self):
         btn_container = self.root.ids.main_scroll
-
+        btn1 = MDTextButton(text='Добавить новую категорию', padding=(10))
+        btn1.bind(on_press=lambda x: self.popup_new_category_btn())
+        btn_container.add_widget(btn1)
         for i in fetch_all():
             item1 = i[1]
             btn = MDTextButton(text=item1,padding=(10))
@@ -64,9 +66,7 @@ class MainApp(MDApp):
             btn.bind(on_release = lambda x:self.clear_text_forms(self.root.ids.product,self.root.ids.price))
             btn_container.add_widget(btn)
 
-        btn1 = MDTextButton(text='Добавить новую категорию',padding=(10))
-        btn1.bind(on_press = lambda x:self.popup_new_category_btn())
-        btn_container.add_widget(btn1)
+
 
     """очищение слайдера категорий"""
     def clean_list_category(self):
@@ -92,23 +92,33 @@ class MainApp(MDApp):
 
 
     """создание попапа продуктов"""
-
     def popup_product_item(self,item):
-        content = MDBoxLayout(orientation='vertical', size_hint=(0.7, 0.6), )
-        input_popup = MDTextField(size_hint=(1, 0.8))
+        content = MDBoxLayout(orientation='vertical', size_hint=(0.7, 0.7), )
+        label = MDLabel(text=item)
+        content.add_widget(label)
+        price = fletch_products_price(item)
+        input_popup = MDTextField(size_hint=(1, 0.8),text=f'{price}')
         content.add_widget(input_popup)
         popup_btn = MDTextButton(id="qwerty", text='Добавить цену')
         content.add_widget(popup_btn)
-        view = ModalView(size_hint=(None, None), size=(200, 100))
+        view = ModalView(size_hint=(None, None), size=(200, 130))
         view.add_widget(content)
         view.open()
         category =  fletch_products_category(item)
-
-
         popup_btn.bind(on_press=lambda x: insert_db(item,input_popup.text,category))
         popup_btn.bind(on_release=view.dismiss)
 
+    """создание списка итоговых сумм"""
+    def create_list_total(self):
+        total = Total.get_total(self)
+        container = self.root.ids.statistic_scroll
+        label1 = MDLabel(text=f'Итого: {total}')
+        container.add_widget(label1)
 
+    """очищение списка итогов"""
+    def clean_list_total(self):
+        container = self.root.ids.statistic_scroll
+        container.clear_widgets()
 
 
     def build(self):
