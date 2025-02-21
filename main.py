@@ -120,6 +120,10 @@ class MainApp(MDApp):
         container = self.root.ids.statistic_scroll
         container.clear_widgets()
 
+    """добавление функции смены вкладок в кнопке другая категория"""
+    def switch_btn(self):
+        btn = self.root.ids.another_category_btn
+        btn.switch_tab("Screen 2")
 
     def build(self):
         self.theme_cls.theme_style = "Dark"
