@@ -1,3 +1,4 @@
+import collections
 from itertools import count
 import sqlite3
 from sqlalchemy import create_engine
@@ -95,4 +96,43 @@ class Total():
             rows = result.fetchall()
             a = [int(i[2]) for i in rows]
             return sum(a)
+
+class Buttons_total():
+    def get_categorys_tuple(self):
+        select_query = select(Products)
+        with engine.connect() as connection:
+            result = connection.execute(select_query)
+            rows = result.fetchall()
+            row = (i[3] for i in rows)
+            new = collections.Counter(row)
+            return new
+
+    def get_price_category(self,name):
+        select_query = select(Products)
+        with engine.connect() as connection:
+            result = connection.execute(select_query)
+            rows = result.fetchall()
+            row = (int(i[2]) for i in rows if i[3]==name)
+            new=sum(tuple(row))
+            return new
+
+class UpdateScroll():
+    def get_product(self,category):
+        select_query = select(Products)
+        with engine.connect() as connection:
+            result = connection.execute(select_query)
+            rows = result.fetchall()
+            row = (i[1] for i in rows if i[3] == category)
+            new = Counter(row)
+            return new
+
+
+    def get_sum_price(self,product):
+        select_query = select(Products)
+        with engine.connect() as connection:
+            result = connection.execute(select_query)
+            rows = result.fetchall()
+            row = (int(i[2]) for i in rows if i[1] == product)
+            new=sum(tuple(row))
+            return new
 

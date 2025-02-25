@@ -17,24 +17,29 @@
 
                 MDBoxLayout:
                     orientation:'vertical'
-                    padding:(0,0,0,20)
-
+                    padding:(0,0,0,25)
+                    spacing:12
                     MDTextField:
                         id:product
-                        helper_text: "Продукт"
+                        mode: "rectangle"
+                        hint_text: "Продукт"
+                        #helper_text: "Helper text"
+                        helper_text_mode: "persistent"
 
 
 
 
                     MDTextField:
                         id:price
-                        helper_text: "Стоимость"
+                        mode: "rectangle"
+                        hint_text: "Стоимость"
+                        helper_text_mode: "persistent"
 
 
                     MDTextButton:
 
                         text:"Другая категория"
-                        pos_hint: {"center_x": .5, "center_y": .5}
+                        pos_hint: {"center_x": .5,"center_y": .5}
                         on_press:app.switch_btn()
 
 

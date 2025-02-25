@@ -1,13 +1,16 @@
-from connection_to_db import insert_category_db,connect_db
+
 from kivymd.app import MDApp
 from kivymd.uix.boxlayout import MDBoxLayout
-from Model import insert_db,fletch_products_name,fletch_products_category,insert_db_category,fetch_all,fletch_products_price,Total
+
+
+from Model import *
 from kivy.uix.popup import Popup,ModalView
 from kivymd.uix.button import  MDTextButton
 from kivymd.uix.textfield import MDTextField
 from kivy.core.window import Window
 from kivymd.uix.label import MDLabel
-from functools import partial
+from View import *
+
 Window.size = (250, 500)
 
 
@@ -43,7 +46,6 @@ class MainApp(MDApp):
         view.open()
         popup_btn.bind(on_press = lambda x:insert_db_category(input_popup.text))
         popup_btn.bind(on_press=lambda x: self.save_new_category(input_popup.text))
-        popup_btn.bind(on_press=lambda x: connect_db())
         popup_btn.bind(on_release=view.dismiss)
 
 
@@ -73,11 +75,10 @@ class MainApp(MDApp):
         btn_container = self.root.ids.main_scroll
         btn_container.clear_widgets()
 
-    """очищение слайдерачастых продуктов"""
+    """очищение слайдера частых продуктов"""
     def clean_list_often_products(self):
         btn_container = self.root.ids.often_product_scroll
         btn_container.clear_widgets()
-
 
 
     """создание слайдера частых продуктов"""
@@ -112,8 +113,20 @@ class MainApp(MDApp):
     def create_list_total(self):
         total = Total.get_total(self)
         container = self.root.ids.statistic_scroll
-        label1 = MDLabel(text=f'Итого: {total}')
+        label1 = MDTextButton(padding=(10,0,0,0),text=f'Итого: {total}', disabled=True)
         container.add_widget(label1)
+        categorys = Buttons_total.get_categorys_tuple(self)
+        for i in categorys:
+            modal_view = PopUps()
+            price = Buttons_total.get_price_category(self,i)
+            btn = MDTextButton(padding=(10),text=f'{i} {price}')
+            btn.bind(on_press=lambda x, name=i : modal_view.create_popup(name))
+            container.add_widget(btn)
+
+
+
+
+
 
     """очищение списка итогов"""
     def clean_list_total(self):
