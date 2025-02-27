@@ -1,15 +1,13 @@
-
 from kivymd.app import MDApp
 from kivymd.uix.boxlayout import MDBoxLayout
-
-
-from Model import *
 from kivy.uix.popup import Popup,ModalView
 from kivymd.uix.button import  MDTextButton
 from kivymd.uix.textfield import MDTextField
 from kivy.core.window import Window
 from kivymd.uix.label import MDLabel
+
 from View import *
+from Model import *
 
 Window.size = (250, 500)
 
