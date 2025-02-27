@@ -1,10 +1,10 @@
-from os import close
-from Model import UpdateScroll
 from kivy.uix.popup import ModalView
 from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.label import MDLabel
 from kivymd.uix.button import MDTextButton,MDIconButton
 from kivy.uix.scrollview import ScrollView
+
+from Model import UpdateScroll
 
 
 class PopUps():

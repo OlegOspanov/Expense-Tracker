@@ -1,11 +1,8 @@
 import collections
-from itertools import count
-import sqlite3
 from sqlalchemy import create_engine
 from sqlalchemy import Table, Column, Integer, String, MetaData
 from sqlalchemy import insert,select
 from sqlalchemy.orm import sessionmaker
-
 from collections import Counter
 
 metadata = MetaData()
