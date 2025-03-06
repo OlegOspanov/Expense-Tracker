@@ -24,7 +24,7 @@ class MainApp(MDApp):
     def insert_category(self,name,value,num):
         print(name,num,value)
         if name!="" and num!="":
-            insert_db(name, num, value)
+            Insert_db.insert_db(name, num, value)
 
     """очистка остновной формы"""
     def  clear_text_forms(self,product,price):
@@ -104,7 +104,7 @@ class MainApp(MDApp):
         view.add_widget(content)
         view.open()
         category =  fletch_products_category(item)
-        popup_btn.bind(on_press=lambda x: insert_db(item,input_popup.text,category))
+        popup_btn.bind(on_press=lambda x: Insert_db.insert_db(item,input_popup.text,category))
         popup_btn.bind(on_release=view.dismiss)
 
     """создание списка итоговых сумм"""

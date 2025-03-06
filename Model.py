@@ -29,12 +29,14 @@ metadata.create_all(engine)
 Session = sessionmaker(bind=engine)
 session = Session()
 
-"""добовление базы продуктов"""
-def insert_db(name,num,value):
-    insert_query = insert(Products).values(Product=name.capitalize(),Price=num,Category=value)
-    with engine.connect() as connection:
-        connection.execute(insert_query)
-        connection.commit()
+
+class Insert_db:
+    """добовление базы продуктов"""
+    def insert_db(name,num,value):
+        insert_query = insert(Products).values(Product=name.capitalize(),Price=num,Category=value)
+        with engine.connect() as connection:
+            connection.execute(insert_query)
+            connection.commit()
 
 """выбор за базы продуктов"""
 def fletch_products_name():
