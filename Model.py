@@ -38,6 +38,14 @@ class Insert_db:
             connection.execute(insert_query)
             connection.commit()
 
+    """добовление таблицы категорий"""
+    def insert_db_category(name):
+        insert_query = insert(Categorys).values(Category=name.capitalize())
+        with engine.connect() as connection:
+            connection.execute(insert_query)
+            connection.commit()
+
+
 """выбор за базы продуктов"""
 def fletch_products_name():
     select_query = select(Products)
@@ -58,34 +66,33 @@ def fletch_products_price(item):
         return ''.join([i[0] for i in a])
 
 
-def fletch_products_category(item):
-    select_query = select(Products)
-    with engine.connect() as connection:
-        result = connection.execute(select_query)
-        rows = result.fetchall()
-        for i in rows:
-            if i[1] == item:
-                category = i[3]
-                return category
 
 
 
-"""добовление таблицы категорий"""
-def insert_db_category(name):
-    insert_query = insert(Categorys).values(Category=name.capitalize())
-    with engine.connect() as connection:
-        connection.execute(insert_query)
-        connection.commit()
 
 
+class SelectDB:
 
-"""выбор из базы категорий"""
-def fetch_all():
-    select_query = select(Categorys)
-    with engine.connect() as connection:
-        result = connection.execute(select_query)
-        rows = result.fetchall()
-        return rows
+
+    """выбор из базы категорий"""
+    def fetch_all(self):
+        select_query = select(Categorys)
+        with engine.connect() as connection:
+            result = connection.execute(select_query)
+            rows = result.fetchall()
+            return rows
+
+    def fletch_products_category(self,item):
+        select_query = select(Products)
+        with engine.connect() as connection:
+            result = connection.execute(select_query)
+            rows = result.fetchall()
+            for i in rows:
+                if i[1] == item:
+                    category = i[3]
+                    return category
+
+
 
 class Total():
     def get_total(self):
