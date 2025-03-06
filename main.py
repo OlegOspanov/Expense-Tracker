@@ -42,7 +42,7 @@ class MainApp(MDApp):
         view = ModalView(size_hint=(None, None), size=(200,100))
         view.add_widget(content)
         view.open()
-        popup_btn.bind(on_press = lambda x:insert_db_category(input_popup.text))
+        popup_btn.bind(on_press = lambda x:Insert_db.insert_db_category(input_popup.text))
         popup_btn.bind(on_press=lambda x: self.save_new_category(input_popup.text))
         popup_btn.bind(on_release=view.dismiss)
 
@@ -59,7 +59,7 @@ class MainApp(MDApp):
         btn1 = MDTextButton(text='Добавить новую категорию', padding=(10))
         btn1.bind(on_press=lambda x: self.popup_new_category_btn())
         btn_container.add_widget(btn1)
-        for i in fetch_all():
+        for i in SelectDB.fetch_all(self):
             item1 = i[1]
             btn = MDTextButton(text=item1,padding=(10))
             btn.bind(on_press = lambda x ,item=item1 :self.insert_category(self.root.ids.product.text,item,self.root.ids.price.text))
@@ -103,7 +103,7 @@ class MainApp(MDApp):
         view = ModalView(size_hint=(None, None), size=(200, 130))
         view.add_widget(content)
         view.open()
-        category =  fletch_products_category(item)
+        category =  SelectDB.fletch_products_category(self,item)
         popup_btn.bind(on_press=lambda x: Insert_db.insert_db(item,input_popup.text,category))
         popup_btn.bind(on_release=view.dismiss)
 
