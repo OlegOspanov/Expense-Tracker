@@ -1,7 +1,8 @@
 
-tst1 = [11, 12, 13, 14]
-tst2 = [21, 22, 23, 24]
-tst3 = [31, 32, 33, 34]
+l = ['a',11,'b', 12, 13, 14]
+def filter_list(l):
+    a = [i for i in l if type(i) == int]
+    print(a)
 
-for i in zip(tst1,tst2,tst3):
-	print(sum(i))
+if __name__ == '__main__':
+    filter_list(l)

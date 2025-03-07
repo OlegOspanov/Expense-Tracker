@@ -26,8 +26,7 @@ Categorys = Table(
 
 metadata.create_all(engine)
 
-Session = sessionmaker(bind=engine)
-session = Session()
+
 
 
 class Insert_db:
@@ -45,25 +44,25 @@ class Insert_db:
             connection.execute(insert_query)
             connection.commit()
 
+class SelectProductsItem:
+    """выбор за базы продуктов"""
+    def fetch_products_name(self):
+        select_query = select(Products)
+        with engine.connect() as connection:
+            result = connection.execute(select_query)
+            rows = result.fetchall()
+            sorted_list = [i[1] for i in rows]
+            a = Counter(sorted_list).most_common(15)
+            return a
 
-"""выбор за базы продуктов"""
-def fletch_products_name():
-    select_query = select(Products)
-    with engine.connect() as connection:
-        result = connection.execute(select_query)
-        rows = result.fetchall()
-        sorted_list = [i[1] for i in rows]
-        a = Counter(sorted_list).most_common(15)
-        return a
-
-def fletch_products_price(item):
-    select_query = select(Products)
-    with engine.connect() as connection:
-        result = connection.execute(select_query)
-        rows = result.fetchall()
-        sorted_list = [i[2] for i in rows if i[1]==item]
-        a = Counter(sorted_list).most_common(1)
-        return ''.join([i[0] for i in a])
+    def fetch_products_price(item):
+        select_query = select(Products)
+        with engine.connect() as connection:
+            result = connection.execute(select_query)
+            rows = result.fetchall()
+            sorted_list = [i[2] for i in rows if i[1]==item]
+            a = Counter(sorted_list).most_common(1)
+            return ''.join([i[0] for i in a])
 
 
 
@@ -82,7 +81,7 @@ class SelectDB:
             rows = result.fetchall()
             return rows
 
-    def fletch_products_category(self,item):
+    def fetch_products_category(self,item):
         select_query = select(Products)
         with engine.connect() as connection:
             result = connection.execute(select_query)

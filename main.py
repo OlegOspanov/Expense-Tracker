@@ -32,19 +32,7 @@ class MainApp(MDApp):
         price.text=""
 
 
-    """создание попапа"""
-    def popup_new_category_btn(self):
-        content = MDBoxLayout(orientation='vertical',size_hint=(0.7,0.6),)
-        input_popup=MDTextField(size_hint=(1,0.8))
-        content.add_widget(input_popup)
-        popup_btn=MDTextButton(id="qwerty",text='Сохранить')
-        content.add_widget(popup_btn)
-        view = ModalView(size_hint=(None, None), size=(200,100))
-        view.add_widget(content)
-        view.open()
-        popup_btn.bind(on_press = lambda x:Insert_db.insert_db_category(input_popup.text))
-        popup_btn.bind(on_press=lambda x: self.save_new_category(input_popup.text))
-        popup_btn.bind(on_release=view.dismiss)
+
 
 
     """создание текстового файла"""
@@ -57,7 +45,7 @@ class MainApp(MDApp):
     def create_list_category(self):
         btn_container = self.root.ids.main_scroll
         btn1 = MDTextButton(text='Добавить новую категорию', padding=(10))
-        btn1.bind(on_press=lambda x: self.popup_new_category_btn())
+        btn1.bind(on_press=lambda x: PopUps.popup_new_category_btn(self))
         btn_container.add_widget(btn1)
         for i in SelectDB.fetch_all(self):
             item1 = i[1]
@@ -82,30 +70,15 @@ class MainApp(MDApp):
     """создание слайдера частых продуктов"""
     def often_products(self):
         btn_container = self.root.ids.often_product_scroll
-        a = fletch_products_name()
+        a = SelectProductsItem.fetch_products_name(self)
         for i in a:
             btn_text = i[0]
             btn = MDTextButton(text=f'{btn_text}', padding=(10))
-            btn.bind(on_press=lambda x,text = btn_text: self.popup_product_item(text))
+            btn.bind(on_press=lambda x,text = btn_text: PopUps.popup_product_item(self,text))
             btn_container.add_widget(btn)
 
 
-    """создание попапа продуктов"""
-    def popup_product_item(self,item):
-        content = MDBoxLayout(orientation='vertical', size_hint=(0.7, 0.7), )
-        label = MDLabel(text=item)
-        content.add_widget(label)
-        price = fletch_products_price(item)
-        input_popup = MDTextField(size_hint=(1, 0.8),text=f'{price}')
-        content.add_widget(input_popup)
-        popup_btn = MDTextButton(id="qwerty", text='Добавить цену')
-        content.add_widget(popup_btn)
-        view = ModalView(size_hint=(None, None), size=(200, 130))
-        view.add_widget(content)
-        view.open()
-        category =  SelectDB.fletch_products_category(self,item)
-        popup_btn.bind(on_press=lambda x: Insert_db.insert_db(item,input_popup.text,category))
-        popup_btn.bind(on_release=view.dismiss)
+
 
     """создание списка итоговых сумм"""
     def create_list_total(self):
